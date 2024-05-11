@@ -5,23 +5,15 @@ import apiConnector from '../../../src/services/api.service';
 import { useRouter } from 'next/router';
 
 const defaultUser = {
-  name: '',
-  lastName: '',
   id: '',
   email: '',
-  phone: '',
-  photoUrl: '',
-  type: ''
+  fullName: '',
 }
 
 export interface IUser {
-  name: string;
-  lastName: string;
+  fullName: string;
   id: string;
   email: string;
-  phone: string;
-  photoUrl: string;
-  type: string;
 }
 
 interface ValueTypes {
@@ -59,12 +51,9 @@ const AuthProvider = ({ children }: any) => {
   const router = useRouter();
 
 
-  const login = async (params: any) => {
-   
-    const response = await  apiConnector.post('/auth/staff', params);  
-   
+  const login = async (data: any) => {
+    const response = await  apiConnector.post('/auth/login', data);  
     window.localStorage.setItem('accessToken', response.accessToken)
-    
     const returnUrl = router.query.returnUrl?.toString()
 
     setUser({ ...response })
@@ -79,39 +68,27 @@ const AuthProvider = ({ children }: any) => {
   const logout = () => {
     router.push('/login');
     window.localStorage.removeItem('userData')
-    window.localStorage.removeItem('');
+    window.localStorage.removeItem('accessToken');
     setTimeout(() => setUser(null), 2000);
   }
 
   const initAuth = useCallback(async() => {
-    const storedToken = window.localStorage.getItem('accessToken');
-    if(storedToken) {
-      setLoading(true);
-      try {
-        const response: any = await apiConnector.get('/auth/me/staff');
-        setUser({ ...response });
-        setLoading(false)
-      } catch (error) {
-        localStorage.removeItem('userData')
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('accessToken');
-        setUser(null)
-        setLoading(false)
-        if (!router.pathname.includes('login')) {
-          await router.replace('/login/')
-        }
-        setLoading(false);
-      }
+    const stored = window.localStorage.getItem('userData');
+
+    
+    setLoading(false);
+    if(stored) {
+        setUser(JSON.parse(stored));
     } else {
       if(!router.pathname.includes('registrarme')) {
         await router.replace('/login/');
       }
-      setLoading(false);
     }
-    
   }, []);
-  const register = async() => {
-
+  
+  const register = async(data: any) => {
+    await  apiConnector.post('/auth/register', data);  
+    await router.replace('/login');
   }
 
   useEffect(() => {initAuth()}, [initAuth]);

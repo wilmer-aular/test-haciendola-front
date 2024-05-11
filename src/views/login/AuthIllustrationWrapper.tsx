@@ -1,6 +1,13 @@
 // ** MUI Components
-import { styled } from '@mui/material/styles'
 import Box, { BoxProps } from '@mui/material/Box'
+
+import Link from 'next/link'
+import { styled } from '@mui/material/styles'
+
+export const LinkStyled = styled(Link)(({ theme }) => ({
+  textDecoration: 'none',
+  color: `${theme.palette.primary.main} !important`
+}))
 
 // ** Styled Components
 const AuthIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({

@@ -5,9 +5,11 @@ import { Icon } from '@iconify/react';
 import Tooltip from '@mui/material/Tooltip'
 import apiConnector from '../../../services/api.service';
 import toast from "react-hot-toast";
+import { useProductContent } from '../ProductsContext';
 import { useState } from "react";
 
-const DeleteProduct = ({row, refresh }: any) => {
+const DeleteProduct = ({product }: any) => {
+  const { get } = useProductContent();
   const theme = useTheme();
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,13 +24,14 @@ const DeleteProduct = ({row, refresh }: any) => {
   const onDelete = async() => {
     try {
       setLoading(true)
-      await apiConnector.remove(`/templates/${row?.id}`);
-      setLoading(false)
+      await apiConnector.remove(`/products/${product?.id}`);
       setOpen(false);
       toast.success('Se eliminó el producto con éxito.')
-      refresh();
+      get();
     } catch (error) {
       toast.error('Ups! Ocurrió un error.')
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -42,13 +45,13 @@ const DeleteProduct = ({row, refresh }: any) => {
         <ConfirmDeleteDialog 
             open={open} 
             onClose={onClose} 
-            title={`Eliminar el producto ${row?.name}`}
+            title={`Eliminar el producto ${product?.title}`}
             titleAction="Eliminar"
             action={onDelete}
             loading={loading}
         >
         <Typography fontSize={14} fontWeight={100} sx={{mt: 3}}>
-            ¿Está seguro que desea eliminar el producto <strong>{row?.name}</strong>?
+            ¿Está seguro que desea eliminar el producto <strong>{product?.title}</strong>?
         </Typography>
         </ConfirmDeleteDialog>
 

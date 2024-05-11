@@ -1,29 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { Alert, Box, Grid, Typography } from "@mui/material"
 
-import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Grid } from "@mui/material"
 import ProductCard from "./components/ProductCard";
-import apiConnector from "../../services/api.service";
 import { motion } from 'framer-motion';
-import { useAuthContent } from "../../core/layout/AuthContext";
-import { useTheme } from '@mui/material/styles';
+import { useEffect } from "react";
+import { useProductContent } from "./ProductsContext";
 
 const ProductsView = () => {
-  const {user} = useAuthContent();
-  const theme = useTheme();
-  const [manifest, setManifest] = useState<any>({});
-  const [loading, setLoading] = useState<any>(false);
-  const [products, setProducts] = useState<any>(null);
-  
-  
-  const get = useCallback(async() => {
-    setLoading(true);
-    const  products: any = await apiConnector.get(`/manifest/pendingByStaff/${user.id}`)
-    setProducts(products);;
-    setLoading(false);
-
-  }, [setLoading]);
+const { get, loading, products } = useProductContent();
 
   useEffect(() => {
       get()
@@ -41,11 +25,29 @@ const ProductsView = () => {
             <CircularProgress />
         </Box> 
         :
-        <Grid container spacing={3}>
-          <Grid item lg={4} sm={6} xs={12}>
-            <ProductCard products={products}/> 
-          </Grid>
-        </Grid> 
+        <>
+        {
+          products.length ? 
+          <Grid container spacing={3}>
+            {
+              products.map((product: any, index: number) => (
+                  <Grid key={index} item lg={4} sm={6} xs={12}>
+                    <ProductCard product={product}/> 
+                  </Grid>
+              ))
+            }
+          
+          </Grid> 
+          :
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 10 }}>
+              <Alert severity="warning" sx={{ py: 3, mb: 2, '& .MuiAlert-message': { p: 0 } }}>
+                <Typography variant='body2' sx={{ color: 'warning.main' }}>
+                  ¡Ops! Aun no tiene productos, puede crear uno desde el menu.
+                </Typography>
+              </Alert>
+          </Box>       
+        } 
+        </>
       }
   </motion.div>
   );

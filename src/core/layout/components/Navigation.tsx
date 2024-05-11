@@ -15,11 +15,11 @@ import Icon from '../../components/icon';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import ModalProduct from '../../../views/products/components/ModalProduct';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { handlerName } from '../../utils/util';
-import toast from "react-hot-toast";
 import { useAuthContent } from '../AuthContext';
 
 const pages: string[] = [];
@@ -91,10 +91,6 @@ function Navigation() {
     }
   };
 
-  const handleDropdownClose = (url?: string) => {
-    toast.success('Will be available soon')
-  };
-
   return (
     <AppBar position="static" elevation={0} sx={{background: 'transparent', boxShadow: 'none'}}>
       <Container maxWidth="lg">
@@ -128,26 +124,18 @@ function Navigation() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem >
+                  <ModalProduct color=""/>
                 </MenuItem>
-              ))}
             </Menu>
           </Box>
           <Box sx={{mr: 2, flexGrow: 1,}}>
             <Img alt='Logo' src='/images/logo-haciendola.webp'/>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+                <MenuItem >
+                  <ModalProduct color=""/>
+                </MenuItem>
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex' }}>
@@ -158,10 +146,9 @@ function Navigation() {
                 mt: 1,
                 mr: 2
               }}>
-                Bienvenido, <strong>{handlerName(`${user?.name} ${user?.lastName}`)}</strong>
+                Bienvenido, <strong>{handlerName(`${user?.fullName}`)}</strong>
               </Typography>
             </Box>
-            
             <Tooltip title="Open settings">
               <Badge
                 overlap='circular'
@@ -174,8 +161,7 @@ function Navigation() {
                 }}
               >
                 <Avatar
-                  alt={user?.name}
-                  src={user?.photoUrl}
+                  alt={user?.fullName}
                   onClick={handleOpenUserMenu}
                   sx={{ width: 38, height: 38 }}
                 />
@@ -199,15 +185,15 @@ function Navigation() {
                         horizontal: 'right'
                       }}
                     >
-                      <Avatar alt={user?.name} src={user?.photoUrl} sx={{ width: '2.5rem', height: '2.5rem' }} />
+                      <Avatar alt={user?.fullName} sx={{ width: '2.5rem', height: '2.5rem' }} />
                     </Badge>
                     <Box sx={{ display: 'flex', ml: 2, alignItems: 'flex-start', flexDirection: 'column' }}>
-                      <Typography sx={{ fontWeight: 500 }} fontSize={13}>{user?.name ?? 'Welcome'}</Typography>
+                      <Typography sx={{ fontWeight: 500 }} fontSize={13}>{user?.fullName ?? 'Welcome'}</Typography>
                       <CustomChip
                         size='small'
                         skin='light'
                         color={'primary'}
-                        label={user?.type}
+                        label={'Admin'}
                       />
                     </Box>
                   </Box>

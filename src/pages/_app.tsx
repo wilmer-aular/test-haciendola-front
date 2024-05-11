@@ -10,6 +10,7 @@ import Head from 'next/head';
 import Layout from '../core/layout/Layout';
 import { LayoutProvider } from '../core/layout/LayoutContext';
 import type { NextPage } from 'next'
+import { ProductProvider } from '../views/products/ProductsContext';
 import ReactHotToast from '../core/components/react-hot-toast';
 import { ThemeProvider } from '@mui/material/styles';
 import { Toaster } from 'react-hot-toast'
@@ -43,13 +44,16 @@ export default function MyApp(props: MyAppProps) {
               isExternal ? <BlankLayout>
                 <CssBaseline />
                 <Component {...pageProps} />
-                </BlankLayout>: <Layout>
-                <CssBaseline />
-                <Component {...pageProps} />
-                <ReactHotToast>
-                  <Toaster position={'bottom-right'} toastOptions={{ className: 'react-hot-toast' }} />
-                </ReactHotToast>
-              </Layout>
+                </BlankLayout>:
+                <ProductProvider>
+                  <Layout>
+                    <CssBaseline />
+                    <Component {...pageProps} />
+                    <ReactHotToast>
+                      <Toaster position={'bottom-right'} toastOptions={{ className: 'react-hot-toast' }} />
+                    </ReactHotToast>
+                  </Layout>
+                </ProductProvider>
             }
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           </LayoutProvider>

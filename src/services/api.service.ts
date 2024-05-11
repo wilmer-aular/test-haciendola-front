@@ -1,16 +1,7 @@
 import axios from 'axios';
 
-// import { api } from '../environments';
-let host = 'https://api-main.palmerstonmoving.com/api'; //prod
-if(process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
-  host = 'http://localhost:5003/api'
-}
-
-const api = {
-  host,
-}
 const repository = axios.create({
-  baseURL: api.host,
+  baseURL: 'http://localhost:3002/api',
   headers: {
     'Content-Type': 'application/json',
     'x-api-key': '12345',
@@ -41,8 +32,6 @@ repository.interceptors.response.use(
   function (response) {
 
     if (response.data.status === 403 || response.data.status === 401) {
-      // authService.logout();
-      console.error('Error al iniciar sesion');
       throw new Error('Error al iniciar sesion');
     }
 
@@ -50,8 +39,7 @@ repository.interceptors.response.use(
   },
   function (error) {
     if (error.response?.status === 401 || error.response?.status === 403 || (error.response?.data && error.response.data?.message === 'Unauthenticated')) {
-      // store.dispatch('logout', { router, doRedirect: true });
-      console.error('Error al iniciar sesion');
+      window.open('http://localhost:3000/login', '_self')
       throw Error('Error al iniciar sesion');
     } else if (error.response?.data) {
       throw new Error(error.response.data.message);
