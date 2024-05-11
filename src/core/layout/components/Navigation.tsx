@@ -134,7 +134,7 @@ function Navigation() {
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem >
-                  <ModalProduct color=""/>
+                  <ModalProduct/>
                 </MenuItem>
           </Box>
 

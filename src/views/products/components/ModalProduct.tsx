@@ -11,7 +11,7 @@ import { useProductContent } from '../ProductsContext';
 import { useState } from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const ModalProduct = ({ product, color="white" }: any) => {
+const ModalProduct = ({ product, color="white"}: any) => {
   const { get } = useProductContent();
     const [open, setOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);

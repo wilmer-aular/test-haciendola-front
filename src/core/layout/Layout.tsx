@@ -7,7 +7,7 @@ const Layout = ({children}: any) => {
     <Box>
       <Box  sx={
       { 
-        backgroundImage: `url('https://www.palmerstonmoving.ca/wp-content/uploads/2020/07/routes.jpg')`,
+        backgroundImage: `url('https://www.shutterstock.com/image-vector/digital-warehouse-automatic-stock-storage-260nw-2366897659.jpg')`,
         backgroundRepeat: 'no-repeat',
         backgroundSize:'cover',
         backgroundPosition: 'center top',

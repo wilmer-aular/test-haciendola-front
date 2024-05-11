@@ -1,6 +1,7 @@
 import { Alert, Box, Grid, Typography } from "@mui/material"
 
 import CircularProgress from '@mui/material/CircularProgress';
+import ModalProduct from "./components/ModalProduct";
 import ProductCard from "./components/ProductCard";
 import { motion } from 'framer-motion';
 import { useEffect } from "react";
@@ -36,14 +37,14 @@ const { get, loading, products } = useProductContent();
                   </Grid>
               ))
             }
-          
           </Grid> 
           :
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: 10 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 10 }}>
               <Alert severity="warning" sx={{ py: 3, mb: 2, '& .MuiAlert-message': { p: 0 } }}>
                 <Typography variant='body2' sx={{ color: 'warning.main' }}>
                   ¡Ops! Aun no tiene productos, puede crear uno desde el menu.
                 </Typography>
+                <ModalProduct color=""/>
               </Alert>
           </Box>       
         } 
