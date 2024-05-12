@@ -52,17 +52,16 @@ const AuthProvider = ({ children }: any) => {
 
 
   const login = async (data: any) => {
-    const response = await  apiConnector.post('/auth/login', data);  
-    window.localStorage.setItem('accessToken', response.accessToken)
-    const returnUrl = router.query.returnUrl?.toString()
+      const response = await  apiConnector.post('/auth/login', data);
+      window.localStorage.setItem('accessToken', response.accessToken)
+      const returnUrl = router.query.returnUrl?.toString()
 
-    setUser({ ...response })
-    window.localStorage.setItem('userData', JSON.stringify(response));
-    window.localStorage.setItem('type', JSON.stringify(response.type));
+      setUser({ ...response })
+      window.localStorage.setItem('userData', JSON.stringify(response));
+      window.localStorage.setItem('type', JSON.stringify(response.type));
 
-    const redirectURL: string = returnUrl && returnUrl !== '/' ? returnUrl : '/'
-
-    window.location.href = redirectURL;
+      const redirectURL: string = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+      window.location.href = redirectURL;
   }
 
   const logout = () => {

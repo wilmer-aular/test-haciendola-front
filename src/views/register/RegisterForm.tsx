@@ -47,7 +47,9 @@ const RegisterForm = () => {
       setLoading(true);
       await auth.register({...data});
       toast.success('Registro exitoso, ahora puedes iniciar sesión')
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error.message);
+      setShowErrorMessage(true);
       toast.error('Opp!, Ocurrio un error')
     } finally {
       setLoading(false);
@@ -58,7 +60,7 @@ const RegisterForm = () => {
   {showErrorMessage ? 
     <Alert severity="warning" sx={{ py: 3, mb: 2, '& .MuiAlert-message': { p: 0 } }}>
       <Typography variant='body2' sx={{ color: 'warning.main' }}>
-        ¡Ops! Ocurrio un error, comuniquese con el equipo de soporte.
+        Ya existe una cuenta asociada al email.
       </Typography>
     </Alert>
     : <></>}

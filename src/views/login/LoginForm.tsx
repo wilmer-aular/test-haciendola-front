@@ -45,7 +45,7 @@ const LoginForm = () => {
    {showErrorMessage ? 
     <Alert severity="warning" sx={{ py: 3, mb: 2, '& .MuiAlert-message': { p: 0 } }}>
       <Typography variant='body2' sx={{ color: 'warning.main' }}>
-        ¡Ops! Se produjo un error al iniciar sesión, verifique su nombre de usuario o contraseña.
+        Usuario o contraseña incorrecto.
       </Typography>
     </Alert>
     : <></>}

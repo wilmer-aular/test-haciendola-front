@@ -39,7 +39,10 @@ repository.interceptors.response.use(
   },
   function (error) {
     if (error.response?.status === 401 || error.response?.status === 403 || (error.response?.data && error.response.data?.message === 'Unauthenticated')) {
-      window.open('http://localhost:3000/login', '_self')
+      const currentURL = window.location.href;
+      if (!currentURL.includes('/login') && !currentURL.includes('/register')) {
+         window.open('http://localhost:3000/login', '_self')
+      }
       throw Error('Error al iniciar sesion');
     } else if (error.response?.data) {
       throw new Error(error.response.data.message);
